@@ -50,7 +50,7 @@
     }
   }
 
-  function onAdvertisment(event) {
+  function onAdvertisement(event) {
   	devices[event.device.id] = {
       name: event.device.name,
       rssi: event.rssi,
