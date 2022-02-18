@@ -4,6 +4,7 @@
   
   var statusElm = $('#_status')[0]
   var blElm = $("#_devices")[0]
+  var posElm = $('#_pos')[0]
   statusElm.innerText = "page loaded"
 
   statusElm.innerText = "checking BLE availability..."
@@ -22,15 +23,21 @@
   async function onStart() {
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
-    let posElm = $('#_pos')[0]
+    await startScanning()    
+    startPositioning()
+  }
 
+  function startPositioning() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(logPosition)
     } else {
       console.log("Geo Location not enabled.")
       posElm.innerText = "Geo Location is not enabled"
     }
+  }
 
+  async function startScanning(){
+    bleScan = null
     if (bleAvailable) {
       bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
     } else {
@@ -49,7 +56,6 @@
     console.log("Lat: " + position.coords.latitude)
     console.log("Lon: " + position.coords.longitude)
     console.log("Pos Obj: " + position)
-    let posElm = $('#_pos')[0]
     posElm.innerText = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude}`
   }
 
