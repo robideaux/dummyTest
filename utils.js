@@ -5,6 +5,8 @@
   var statusElm = $('#_status')[0]
   var blElm = $("#_devices")[0]
   var posElm = $('#_pos')[0]
+  var startBtn = $("#_start")[0]
+  var stopBtn = $("#_stop")[0]
   statusElm.innerText = "page loaded"
 
   statusElm.innerText = "checking BLE availability..."
@@ -20,6 +22,9 @@
     }
   })
 
+  startBtn.addEventListener('click', onStart)
+  stopBtn.addEventListener('click', onStop)
+  
   async function onStart() {
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
