@@ -34,7 +34,7 @@
     posElm.innerText = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude}`
   }
 
-  function async startBleScan(isAvailable) {
+  async function startBleScan(isAvailable) {
     let blElm = $("#_devices")[0]
     console.trace("blElm: " + blElm)
     console.log("available: " + isAvailable)
