@@ -7,6 +7,10 @@
   var posElm = $('#_pos')[0]
   var startBtn = $("#_start")[0]
   var stopBtn = $("#_stop")[0]
+  var listBtn = $("#_listDevices")[0]
+  startBtn.disabled = false
+  stopBtn.disabled = true
+  listBtn.disabled = true
   statusElm.innerText = "page loaded"
 
   statusElm.innerText = "checking BLE availability..."
@@ -24,12 +28,17 @@
 
   startBtn.addEventListener('click', onStart)
   stopBtn.addEventListener('click', onStop)
+  listBtn.addEventListener('click', onList)
   
   function onStart() {
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
+    blElm.innerText = ""
     startScanning()    
     startPositioning()
+    
+    startBtn.disabled = true
+    stopBtn.disabled = false
   }
 
   function startPositioning() {
@@ -54,6 +63,9 @@
       bleScan.stop()
       bleScan = null
     }
+    startBtn.disabled = false
+    stopBtn.disabled = true
+    listBtn.disabled = true
   }
 
   function logPosition(position) {
@@ -81,6 +93,10 @@
   }
   */
 
+  function onList() {
+    listDevices()
+  }
+
   function onAdvertisement(event) {
   	devices[event.device.id] = {
       name: event.device.name,
@@ -88,12 +104,15 @@
       tx: event.txPower,
       evt: event
     }
+    listBtn.disabled = false
   }
 
   function listDevices() {
+    blElm.innerText = ""
     for (const [id, device] of Object.entries(devices)) {
         console.log("Device: " + id)
         console.log(device)
+        blElm.innerText = blElm + id + "<p>"
     }
   }
   
