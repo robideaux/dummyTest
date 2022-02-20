@@ -25,10 +25,10 @@
   startBtn.addEventListener('click', onStart)
   stopBtn.addEventListener('click', onStop)
   
-  async function onStart() {
+  function onStart() {
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
-    // await startScanning()    
+    startScanning()    
     startPositioning()
   }
 
@@ -41,12 +41,11 @@
     }
   }
 
-  async function startScanning(){
+  function startScanning(){
     bleScan = null
     if (bleAvailable) {
-      bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
-    } else {
-      bleScan = null
+      navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true}).then(scan => {bleScan = scan})
+      // bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
     }
   }
 
