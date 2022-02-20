@@ -19,7 +19,8 @@
     if (bleAvailable == true){
       blElm.innerText = "Bluetooth IS available."
       console.log("Bluetooth IS available.")
-      navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisement)
+      //navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisement)
+      navigator.bluetooth.onadvertisementreceived = onAdvertisement
     } else {
       blElm.innerText = "Bluetooth is NOT available."
       console.log("Bluetooth is NOT available.")
@@ -53,7 +54,15 @@
   function startScanning(){
     bleScan = null
     if (bleAvailable) {
-      navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true}).then(scan => {bleScan = scan})
+      try{
+        navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true}).then(scan => {bleScan = scan}).catch(err => {
+          console.log("Inner Error: " + err)
+          statusElm.innerText = "Inner Error:" + err
+        })
+      } catch (error) {
+          console.log("Outer Error: " + err)
+          statusElm.innerText = "Outer Error:" + err
+      }
       // bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
     }
   }
@@ -74,24 +83,6 @@
     console.log("Pos Obj: " + position)
     posElm.innerText = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude}`
   }
-
-  /*
-  async function startBleScan(isAvailable) {
-    let blElm = $("#_devices")[0]
-    console.trace("blElm: " + blElm)
-    console.log("available: " + isAvailable)
-
-    if (isAvailable == true){
-      blElm.innerText = "Bluetooth IS available."
-      console.log("Bluetooth IS available.")
-      navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisement)
-      bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
-    } else {
-      blElm.innerText = "Bluetooth is not available."
-      console.log("Bluetooth is not available.")
-    }
-  }
-  */
 
   function onList() {
     listDevices()
