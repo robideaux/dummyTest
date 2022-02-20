@@ -28,7 +28,7 @@
   async function onStart() {
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
-    await startScanning()    
+    // await startScanning()    
     startPositioning()
   }
 
