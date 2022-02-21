@@ -1,6 +1,7 @@
   var devices = {}
   var bleScan = {}
   var bleAvailable = false
+  var posWatcher = null
   
   var statusElm = $('#_status')[0]
   var blElm = $("#_devices")[0]
@@ -43,8 +44,10 @@
   }
 
   function startPositioning() {
+    posWatcher = null
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(logPosition)
+      //navigator.geolocation.getCurrentPosition(logPosition)
+      posWatcher = navigator.geolocation.watchPosition(logPosition)
     } else {
       console.log("Geo Location not enabled.")
       posElm.innerText = "Geo Location is not enabled"
@@ -72,6 +75,10 @@
       bleScan.stop()
       bleScan = null
     }
+    if (posWatcher) {
+      navigator.geolocation.clearWatch(posWatcher)
+      posWatcher = null
+    }
     startBtn.disabled = false
     stopBtn.disabled = true
     listBtn.disabled = true
@@ -81,7 +88,8 @@
     console.log("Lat: " + position.coords.latitude)
     console.log("Lon: " + position.coords.longitude)
     console.log("Pos Obj: " + position)
-    posElm.innerText = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude}`
+    var posString = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude} +/-${position.coords.accuracy}m (${position.coords.speed}m/s)`
+    posElm.innerText = posString
   }
 
   function onList() {
@@ -103,7 +111,7 @@
     for (const [id, device] of Object.entries(devices)) {
         console.log("Device: " + id)
         console.log(device)
-        blElm.innerText = blElm + id + "<p>"
+        blElm.innerText += id + "[" + device.rssi + "]<p>"
     }
   }
   
