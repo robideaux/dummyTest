@@ -36,8 +36,8 @@
     console.log("Starting...")
     statusElm.innerText = "on Started() ..."
     blElm.innerText = ""
-    startScanning()    
     startPositioning()
+    startScanning()    
     
     startBtn.disabled = true
     stopBtn.disabled = false
@@ -63,8 +63,8 @@
           statusElm.innerText = "Inner Error:" + err
         })
       } catch (error) {
-          console.log("Outer Error: " + err)
-          statusElm.innerText = "Outer Error:" + err
+          console.log("Outer Error: " + error)
+          statusElm.innerText = "Outer Error:" + error
       }
       // bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
     }
