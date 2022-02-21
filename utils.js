@@ -107,11 +107,11 @@
   }
 
   function listDevices() {
-    blElm.innerText = ""
+    blElm.innerHtml = ""
     for (const [id, device] of Object.entries(devices)) {
         console.log("Device: " + id)
         console.log(device)
-        blElm.innerText += id + "[" + device.rssi + "]<p>"
+        blElm.innerHtml += "<p>" + id + "[" + device.rssi + "]</p>"
     }
   }
   
