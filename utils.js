@@ -37,7 +37,7 @@
   
   function onStart() {
     console.log("Starting...")
-    statusElm.innerText = "Starting 10sec scan..."
+    statusElm.innerText = "Starting 20sec scan..."
     blElm.innerText = ""
     startPositioning()
     startScanning()    
@@ -45,7 +45,7 @@
     startBtn.disabled = true
     stopBtn.disabled = false
     timerUpdate = setInterval(onRefresh, 0.5 * 1000)
-    timerStop = setInterval(onStop, 10 * 1000)
+    timerStop = setInterval(onStop, 20 * 1000)
   }
 
   function startPositioning() {
