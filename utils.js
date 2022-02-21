@@ -23,8 +23,8 @@
     if (bleAvailable == true){
       blElm.innerText = "Bluetooth IS available."
       console.log("Bluetooth IS available.")
-      //navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisement)
-      navigator.bluetooth.onadvertisementreceived = onAdvertisement
+      navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisement)
+      //navigator.bluetooth.onadvertisementreceived = onAdvertisement
     } else {
       blElm.innerText = "Bluetooth is NOT available."
       console.log("Bluetooth is NOT available.")
@@ -87,7 +87,7 @@
     }
     startBtn.disabled = false
     stopBtn.disabled = true
-    listBtn.disabled = true
+    //listBtn.disabled = true
 
     clearInterval(timerUpdate)
     clearInterval(timerStop)
@@ -110,7 +110,7 @@
   }
 
   function onAdvertisement(event) {
-  	devices[event.device.id] = {
+    devices[event.device.id] = {
       name: event.device.name,
       rssi: event.rssi,
       tx: event.txPower,
