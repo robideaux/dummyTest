@@ -96,7 +96,7 @@
   }
 
   function logPosition(position) {
-    var timestmap = Date.now() 
+    var timestamp = Date.now() 
     positionLog[timestamp] = position.coords
     console.log("Lat: " + position.coords.latitude)
     console.log("Lon: " + position.coords.longitude)
