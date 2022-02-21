@@ -111,7 +111,7 @@
     for (const [id, device] of Object.entries(devices)) {
         console.log("Device: " + id)
         console.log(device)
-        blElm.innerHtml += "<p>" + id + "[" + device.rssi + "]</p>"
+        blElm.innerHtml += id + "[" + device.rssi + "]<br>"
     }
   }
   
