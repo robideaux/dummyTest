@@ -128,6 +128,7 @@
         tx: event.txPower,
         evt: event
       }
+    }
     catch (error) {
       console.log("Error recordning scan event.")
       console.log(error)
