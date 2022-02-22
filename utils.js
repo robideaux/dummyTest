@@ -7,6 +7,8 @@
   var timerUpdate = null
 
   var statusElm = $('#_status')[0]
+  var progressElm = $('#_progress')[0]
+  var progressWidth = 200
   var blElm = $("#_devices")[0]
   var posElm = $('#_pos')[0]
   var startBtn = $("#_start")[0]
@@ -38,6 +40,8 @@
   function onStart() {
     console.log("Starting...")
     statusElm.innerText = "Starting 20sec scan..."
+    progressWidth = 200
+    $(progressElm).width(progressWidth)
     blElm.innerText = ""
     startPositioning()
     startScanning()    
@@ -104,6 +108,9 @@
 
     clearInterval(timerUpdate)
     clearInterval(timerStop)
+
+    progressWidth = 0
+    $(progressElm).width(progressWidth)
     
     posElm.innerHTML += "<br>Recorded " + Object.entries(positionLog).length + " positions."
   }
@@ -139,6 +146,8 @@
   }
 
   function onRefresh() {
+    progressWidth -= 1
+    $(progressElm).width(progressWidth)
     listDevices()
   }
 
