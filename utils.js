@@ -40,7 +40,7 @@
 
   var map = L.map('_map').setView([30.0, -91.0], 13);
   // replace "toner" here with "terrain" or "watercolor"
-  var layer = new L.StamenTileLayer("watercolor");
+  var layer = new L.StamenTileLayer("toner");
   map.addLayer(layer);  
 
   function onStart() {
