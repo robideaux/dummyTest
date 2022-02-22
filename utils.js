@@ -38,7 +38,10 @@
   listBtn.addEventListener('click', onList)
 
   var map = L.map('_map').setView([30.0, -91.0], 13);
-  
+  // replace "toner" here with "terrain" or "watercolor"
+  var layer = new L.StamenTileLayer("watercolor");
+  map.addLayer(layer);  
+
   function onStart() {
     console.log("Starting...")
     statusElm.innerText = "Starting 20sec scan..."
