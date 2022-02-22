@@ -5,6 +5,7 @@
   var positionLog = {}
   var timerStop = null
   var timerUpdate = null
+  var circle = null
 
   var statusElm = $('#_status')[0]
   var progressElm = $('#_progress')[0]
@@ -132,12 +133,18 @@
     }
     posElm.innerText = posString
     
-    var circle = L.circle([position.coords.latitude, position.coords.longitude], {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: position.coords.accuracy
-    }).addTo(map);
+    var location = L.latLng(position.coords.latitude, position.coords.longitude)
+    if (!circle) {
+      circle = L.circle(location, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: position.coords.accuracy
+      }).addTo(map)
+    } else {
+      circle.setLatLng(location)
+      circle.setRadius(position.coords.accuracy)
+    }
   }
 
   function onList() {
