@@ -38,10 +38,10 @@
   stopBtn.addEventListener('click', onStop)
   listBtn.addEventListener('click', onList)
 
-  var map = L.map('_map').setView([30.0, -91.0], 13);
+  var map = L.map('_map').setView([30.0, -91.0], 13)
   // replace "toner" here with "terrain" or "watercolor"
-  var layer = new L.StamenTileLayer("toner");
-  map.addLayer(layer);  
+  var layer = new L.StamenTileLayer("terrain")
+  map.addLayer(layer)
 
   function onStart() {
     console.log("Starting...")
@@ -134,6 +134,7 @@
     posElm.innerText = posString
     
     var location = L.latLng(position.coords.latitude, position.coords.longitude)
+    map.setView(location)
     if (!circle) {
       circle = L.circle(location, {
         color: 'red',
