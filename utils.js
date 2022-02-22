@@ -36,6 +36,8 @@
   startBtn.addEventListener('click', onStart)
   stopBtn.addEventListener('click', onStop)
   listBtn.addEventListener('click', onList)
+
+  var map = L.map('_map').setView([30.0, -91.0], 13);
   
   function onStart() {
     console.log("Starting...")
