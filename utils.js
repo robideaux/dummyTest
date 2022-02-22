@@ -69,7 +69,9 @@
           .then(scan => {
             console.log("Scan started.")
             bleScan = scan
-            console.log("Scan object = " + bleScan)
+           console.log("Scan object = " + bleScan)
+          }, er => {
+            console.log("rejected. " + er)
           })
           .catch(err => {
             console.log("Inner Error: " + err)
