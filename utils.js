@@ -131,6 +131,13 @@
       posString = `${posString} (${position.coords.speed}m/s @ ${position.coords.heading}°)`
     }
     posElm.innerText = posString
+    
+    var circle = L.circle([position.coords.latitude, position.coords.lonitude], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: position.coords.accuracy
+    }).addTo(map);
   }
 
   function onList() {
