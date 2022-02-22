@@ -132,7 +132,7 @@
     }
     posElm.innerText = posString
     
-    var circle = L.circle([position.coords.latitude, position.coords.lonitude], {
+    var circle = L.circle([position.coords.latitude, position.coords.longitude], {
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5,
