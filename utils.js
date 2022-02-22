@@ -63,14 +63,25 @@
   function startScanning(){
     bleScan = null
     if (bleAvailable) {
+      console.log("calling requestLEScan()")
       try{
-        navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true}).then(scan => {bleScan = scan}).catch(err => {
-          console.log("Inner Error: " + err)
-          statusElm.innerText = "Inner Error:" + err
-        })
-      } catch (error) {
+        navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
+          .then(scan => {
+            console.log("Scan started.")
+            bleScan = scan
+            console.log("Scan object = " + bleScan)
+          })
+          .catch(err => {
+            console.log("Inner Error: " + err)
+            statusElm.innerText = "Inner Error:" + err
+          })
+      }
+      catch (error) {
           console.log("Outer Error: " + error)
           statusElm.innerText = "Outer Error:" + error
+      }
+      finally {
+        console.log("scan initiated.")
       }
       // bleScan = await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
     }
@@ -110,11 +121,16 @@
   }
 
   function onAdvertisement(event) {
-    devices[event.device.id] = {
-      name: event.device.name,
-      rssi: event.rssi,
-      tx: event.txPower,
-      evt: event
+    try {
+      devices[event.device.id] = {
+        name: event.device.name,
+        rssi: event.rssi,
+        tx: event.txPower,
+        evt: event
+      }
+    catch (error) {
+      console.log("Error recordning scan event.")
+      console.log(error)
     }
     listBtn.disabled = false
   }
