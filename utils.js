@@ -121,7 +121,10 @@
     console.log("Lat: " + position.coords.latitude)
     console.log("Lon: " + position.coords.longitude)
     console.log("Pos Obj: " + position)
-    var posString = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude} +/-${position.coords.accuracy}m (${position.coords.speed}m/s @ ${position.coords.heading}°)`
+    var posString = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude} +/-${position.coords.accuracy}m`
+    if (position.coords.speed && position.coords.heading) {
+      posString = `${posString} (${position.coords.speed}m/s @ ${position.coords.heading}°)`
+    }
     posElm.innerText = posString
   }
 
