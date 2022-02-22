@@ -48,7 +48,7 @@
    
     startBtn.disabled = true
     stopBtn.disabled = false
-    timerUpdate = setInterval(onRefresh, 0.5 * 1000)
+    timerUpdate = setInterval(onRefresh, 500)
     timerStop = setInterval(onStop, 20 * 1000)
   }
 
@@ -146,7 +146,7 @@
   }
 
   function onRefresh() {
-    progressWidth -= 1
+    progressWidth -= 5
     $(progressElm).width(progressWidth)
     listDevices()
   }
