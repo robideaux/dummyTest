@@ -17,7 +17,7 @@
   var listBtn = $("#_listDevices")[0]
   startBtn.disabled = false
   stopBtn.disabled = true
-  listBtn.disabled = true
+  listBtn.disabled = false
   statusElm.innerText = "page loaded"
 
   statusElm.innerText = "checking BLE availability..."
@@ -152,7 +152,7 @@
       devices: {}
     }
     for (const [time, pos] of Object.entries(positionLog)) {
-      package.positions[time] = pos
+      package.positions[time] = position.coords
     }
     for (const [id, device] of Object.entries(devices)) {
       if (device.name && device.name.length > 0 ) {
