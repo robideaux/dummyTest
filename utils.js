@@ -12,6 +12,7 @@
   var progressWidth = 200
   var blElm = $("#_devices")[0]
   var posElm = $('#_pos')[0]
+  var responseElm = $('#_response')[0]
   var startBtn = $("#_start")[0]
   var stopBtn = $("#_stop")[0]
   var listBtn = $("#_listDevices")[0]
@@ -46,6 +47,7 @@
   function onStart() {
     console.log("Starting...")
     statusElm.innerText = "Starting 20sec scan..."
+    responseElm.innerText = ""
     progressWidth = 200
     $(progressElm).width(progressWidth)
     blElm.innerText = ""
@@ -120,6 +122,7 @@
     $(progressElm).width(progressWidth)
     
     posElm.innerHTML += "<br>Recorded " + Object.entries(positionLog).length + " positions."
+    displayResponse()
   }
 
   function logPosition(position) {
@@ -146,7 +149,7 @@
     }
   }
 
-  function onList() {
+  function displayResponse() {
     var package = {
       positions: {},
       devices: {}
@@ -166,8 +169,8 @@
       }
     }
 
+    responseElm.innerHTML = "<pre>" + JSON.stringify(package, null, 2) + "</pre>"
     console.log(package)
-    console.log(JSON.stringify(package))
   }
 
   function onAdvertisement(event) {
@@ -197,10 +200,10 @@
   function onRefresh() {
     progressWidth -= 5
     $(progressElm).width(progressWidth)
-    listDevices()
+    onList()
   }
 
-  function listDevices() {
+  function onList() {
     blElm.innerHTML = ""
     for (const [id, device] of Object.entries(devices)) {
       // console.log("Device: " + id)
