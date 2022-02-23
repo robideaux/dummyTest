@@ -152,7 +152,13 @@
       devices: {}
     }
     for (const [time, pos] of Object.entries(positionLog)) {
-      package.positions[time] = position.coords
+      package.positions[time] = {
+        lat: pos.latitude,
+        lon: pos.longitude,
+        accuracy: pos.accuracy,
+        speed: pos.speed,
+        heading: pos.heading
+      }
     }
     for (const [id, device] of Object.entries(devices)) {
       if (device.name && device.name.length > 0 ) {
@@ -161,6 +167,7 @@
     }
 
     console.log(package)
+    console.log(JSON.stringify(package))
   }
 
   function onAdvertisement(event) {
