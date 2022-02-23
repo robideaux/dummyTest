@@ -72,14 +72,13 @@
 
   function startScanning(){
     bleScan = null
+    devices = {}
     if (bleAvailable) {
-      console.log("calling requestLEScan()")
       try{
         navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true})
           .then(scan => {
             console.log("Scan started.")
             bleScan = scan
-           console.log("Scan object = " + bleScan)
           }, er => {
             console.log("rejected. " + er)
           })
@@ -100,6 +99,9 @@
   }
 
   function onStop() {
+    console.log("Stopped scanning")
+    statusElm.innerText = "Done"
+    
     if (bleScan){
       bleScan.stop()
       bleScan = null
@@ -110,7 +112,6 @@
     }
     startBtn.disabled = false
     stopBtn.disabled = true
-    //listBtn.disabled = true
 
     clearInterval(timerUpdate)
     clearInterval(timerStop)
@@ -124,9 +125,6 @@
   function logPosition(position) {
     var timestamp = Date.now() 
     positionLog[timestamp] = position.coords
-    console.log("Lat: " + position.coords.latitude)
-    console.log("Lon: " + position.coords.longitude)
-    console.log("Pos Obj: " + position)
     var posString = `Lat: ${position.coords.latitude} , Lon: ${position.coords.longitude} +/-${position.coords.accuracy}m`
     if (position.coords.speed && position.coords.heading) {
       posString = `${posString} (${position.coords.speed}m/s @ ${position.coords.heading}°)`
@@ -137,9 +135,9 @@
     map.setView(location)
     if (!circle) {
       circle = L.circle(location, {
-        color: 'red',
+        color: 'blue',
         fillColor: '#f03',
-        fillOpacity: 0.5,
+        fillOpacity: 0.4,
         radius: position.coords.accuracy
       }).addTo(map)
     } else {
@@ -149,17 +147,38 @@
   }
 
   function onList() {
-    listDevices()
+    var package = {
+      positions: {},
+      devices: {}
+    }
+    for (const [time, pos] of Object.entries(positionLog)) {
+      package.positions[time] = pos
+    }
+    for (const [id, device] of Object.entries(devices)) {
+      if (device.name && device.name.length > 0 ) {
+        package.devices[id] = device
+      }
+    }
+
+    console.log(package)
   }
 
   function onAdvertisement(event) {
     try {
-      devices[event.device.id] = {
-        name: event.device.name,
-        rssi: event.rssi,
-        tx: event.txPower,
-        evt: event
+      var id = event.device.id
+      if (!devices.hasOwnProperty(id)) {
+        devices[id] = {
+          name: event.device.name,
+          recordings: []
+        }
       }
+      recordings = devices[id].recordings
+      
+      var record = {
+        timestamp: Date.now(),
+        rssi: event.rssi,
+      }
+      recordings.push(record)
     }
     catch (error) {
       console.log("Error recordning scan event.")
@@ -177,8 +196,14 @@
   function listDevices() {
     blElm.innerHTML = ""
     for (const [id, device] of Object.entries(devices)) {
-        // console.log("Device: " + id)
-        // console.log(device)
-        blElm.innerHTML = blElm.innerHTML + "<br>" + id + " [" + device.rssi + "] (" + device.name + ")"
+      // console.log("Device: " + id)
+      // console.log(device)
+      var rssi = null
+      var length = device.recordings.length
+      if (length > 0)
+      {
+        rssi = device.recordings[length - 1]
+      }
+      blElm.innerHTML = blElm.innerHTML + "<br>" + id + " [" + rssi + "] (name: " + device.name + ")"
     }
   }
